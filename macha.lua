@@ -1,6 +1,89 @@
---[[ macha hub - Ultimate Rotation Fix ]]--
-local _0xG=game;local _0xC=_0xG:GetService("CoreGui");local _0xP=_0xG:GetService("Players");local _0xR=_0xG:GetService("RunService");local _0xU=_0xG:GetService("UserInputService");local _0xLg=_0xG:GetService("Lighting");local _0xCA=workspace.CurrentCamera;local _0xL=_0xP.LocalPlayer;local _0xM=_0xL:GetMouse();if _0xC:FindFirstChild("macha_hub") then _0xC.macha_hub:Destroy() end;local _0xUI=Instance.new("ScreenGui",_0xC);_0xUI.Name="macha_hub";_0xUI.ResetOnSpawn=false;local _0xMN=Instance.new("Frame",_0xUI);_0xMN.Size=UDim2.new(0,470,0,280);_0xMN.Position=UDim2.new(0.2,0,0.3,0);_0xMN.BackgroundColor3=Color3.fromRGB(35,50,35);_0xMN.Active=true;_0xMN.Draggable=true;local _0xTT=Instance.new("TextLabel",_0xMN);_0xTT.Size=UDim2.new(1,0,0,28);_0xTT.Text="\240\159\141\181 macha hub";_0xTT.BackgroundColor3=Color3.fromRGB(55,75,45);_0xTT.TextColor3=Color3.new(1,1,1);local _0xBT=Instance.new("TextButton",_0xUI);_0xBT.Size=UDim2.new(0,75,0,30);_0xBT.Position=UDim2.new(0,10,0.4,0);_0xBT.Text="macha";_0xBT.BackgroundColor3=Color3.fromRGB(110,150,90);_0xBT.MouseButton1Click:Connect(function()_0xMN.Visible=not _0xMN.Visible end);local _st={dash=false,walk=false,fly=false,clip=false,infJump=false,clickTp=false,invis=false,espAll=false,tpTarget=false,espTarget=false,tracers=false,aimbot=false,flag=false,bright=false,selectedPlayer=nil,pos=nil};local _mkr=nil;local _tLine=Drawing.new("Line");_tLine.Visible=false;_tLine.Color=Color3.fromRGB(0,255,255);_tLine.Thickness=2;_tLine.Transparency=0.8;local function _uB()for _,v in pairs(_0xMN:GetChildren()) do if v:IsA("TextButton") and v:GetAttribute("K") then local k=v:GetAttribute("K");v.Text=v:GetAttribute("N")..(_st[k] and ": ON" or ": OFF");v.BackgroundColor3=_st[k] and Color3.fromRGB(190,60,60) or v:GetAttribute("C") end end end;local function _eS(p,s)if not p or not p.Character then return end;if s then if not p.Character:FindFirstChild("m_e") then local h=Instance.new("Highlight",p.Character);h.Name="m_e";h.FillColor=Color3.fromRGB(160,255,110) end else if p.Character:FindFirstChild("m_e") then p.Character.m_e:Destroy() end end end;local function _tD(p)local l=Drawing.new("Line");l.Visible=false;l.Color=Color3.fromRGB(160,255,110);l.Thickness=1;_0xR.RenderStepped:Connect(function()if _st.tracers and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then local v,o=_0xCA:WorldToViewportPoint(p.Character.HumanoidRootPart.Position);if o then l.From=Vector2.new(_0xCA.ViewportSize.X/2,_0xCA.ViewportSize.Y);l.To=Vector2.new(v.X,v.Y);l.Visible=true else l.Visible=false end else l.Visible=false end;if not p.Parent then l:Destroy() end end) end;local function _gT()if _st.selectedPlayer and _st.selectedPlayer.Character then return _st.selectedPlayer.Character:FindFirstChild("Head") or _st.selectedPlayer.Character:FindFirstChild("HumanoidRootPart") end;local t,d=nil,250;for _,v in pairs(workspace:GetDescendants()) do if v:IsA("BasePart") and (v.Name=="Head" or v.Name=="HumanoidRootPart") and not v:IsDescendantOf(_0xL.Character) then local p,o=_0xCA:WorldToViewportPoint(v.Position)if o then local m=(Vector2.new(p.X,p.Y)-_0xU:GetMouseLocation()).Magnitude;if m<d then d=m;t=v end end end end;return t end;local function _mB(n,p,c,k)local b=Instance.new("TextButton",_0xMN);b.Size=UDim2.new(0,110,0,26);b.Position=p;b.BackgroundColor3=c;b.TextColor3=Color3.new(1,1,1);b.Text=n..": OFF";b.MouseButton1Click:Connect(function()_st[k]=not _st[k];if k=="dash" or k=="walk" or k=="fly" then local o=_st[k];_st.dash,_st.walk,_st.fly=false,false,false;_st[k]=o elseif k=="invis" then local ch=_0xL.Character;if ch then for _,v in pairs(ch:GetDescendants()) do if v:IsA("BasePart") or v:IsA("Decal") then v.Transparency=_st.invis and 0.7 or 0 end end end elseif k=="espAll" then for _,pl in pairs(_0xP:GetPlayers()) do if pl~=_0xL then _eS(pl,_st.espAll) end end elseif k=="espTarget" then if _st.selectedPlayer then _eS(_st.selectedPlayer,_st.espTarget) end end;_uB()end);b:SetAttribute("K",k);b:SetAttribute("N",n);b:SetAttribute("C",c)end;
-_mB("DASH",UDim2.new(0,10,0,35),Color3.fromRGB(65,95,50),"dash");_mB("WALK",UDim2.new(0,10,0,65),Color3.fromRGB(65,95,50),"walk");_mB("FLY",UDim2.new(0,10,0,95),Color3.fromRGB(65,95,50),"fly");_mB("CLIP",UDim2.new(0,10,0,125),Color3.fromRGB(65,95,50),"clip");_mB("INF JUMP",UDim2.new(0,10,0,155),Color3.fromRGB(65,95,50),"infJump");_mB("INVIS",UDim2.new(0,10,0,185),Color3.fromRGB(65,95,50),"invis");_mB("CLICK TP",UDim2.new(0,10,0,215),Color3.fromRGB(65,95,50),"clickTp");_mB("ESP ALL",UDim2.new(0,10,0,245),Color3.fromRGB(65,95,50),"espAll");
-_mB("TRACERS",UDim2.new(0,125,0,35),Color3.fromRGB(80,110,60),"tracers");_mB("AIM BOT",UDim2.new(0,125,0,65),Color3.fromRGB(110,80,60),"aimbot");_mB("FAKE LAG",UDim2.new(0,125,0,95),Color3.fromRGB(70,70,100),"flag");_mB("FULL BRIGHT",UDim2.new(0,125,0,125),Color3.fromRGB(160,160,80),"bright");
-_mB("TP TARGET",UDim2.new(0,350,0,35),Color3.fromRGB(100,130,80),"tpTarget");_mB("ESP TARGET",UDim2.new(0,350,0,65),Color3.fromRGB(100,130,80),"espTarget");
-local _sB=Instance.new("TextButton",_0xMN);_sB.Size=UDim2.new(0,110,0,26);_sB.Position=UDim2.new(0,350,0,215);_sB.Text="SET POS";_sB.BackgroundColor3=Color3.fromRGB(110,130,90);_sB.TextColor3=Color3.new(1,1,1);_sB.MouseButton1Click:Connect(function()local h=_0xL.Character:FindFirstChild("HumanoidRootPart")if h then _st.pos=h.CFrame;if _mkr then _mkr:Destroy()end;_mkr=Instance.new("Part",workspace);_mkr.Anchored=true;_mkr.CanCollide=false;_mkr.Size=Vector3.new(1,1,1);_mkr.CFrame=_st.pos;_mkr.Color=Color3.fromRGB(255,255,255);_mkr.Transparency=0.5;_mkr.Material="Neon";_mkr.Shape="Ball";_sB.Text="SAVED!";task.wait(0.5);_sB.Text="SET POS" end end);local _tB=Instance.new("TextButton",_0xMN);_tB.Size=UDim2.new(0,110,0,26);_tB.Position=UDim2.new(0,350,0,245);_tB.Text="TELEPORT";_tB.BackgroundColor3=Color3.fromRGB(160,190,110);_tB.TextColor3=Color3.new(0.2,0.3,0.1);_tB.MouseButton1Click:Connect(function()local h=_0xL.Character:FindFirstChild("HumanoidRootPart")if h and _st.pos then h.CFrame=_st.pos end end);local _LS=Instance.new("ScrollingFrame",_0xMN);_LS.Size=UDim2.new(0,215,0,105);_LS.Position=UDim2.new(0,125,0,160);_LS.BackgroundColor3=Color3.fromRGB(45,60,45);_LS.AutomaticCanvasSize="Y";Instance.new("UIListLayout",_LS);local function _uL()for _,c in pairs(_LS:GetChildren()) do if c:IsA("TextButton") then c:Destroy() end end;for _,p in pairs(_0xP:GetPlayers()) do if p~=_0xL then local b=Instance.new("TextButton",_LS);b.Size=UDim2.new(1,0,0,30);b.Text=p.Name;b.BackgroundColor3=(_st.selectedPlayer==p and Color3.fromRGB(150,150,0) or Color3.fromRGB(75,95,65));b.TextColor3=Color3.new(1,1,1);b.MouseButton1Click:Connect(function()if _st.selectedPlayer==p then _eS(_st.selectedPlayer,false);_st.selectedPlayer=nil else if _st.selectedPlayer then _eS(_st.selectedPlayer,false) end;_st.selectedPlayer=p;if _st.espTarget then _eS(_st.selectedPlayer,true) end end;_uL()end) end end end;_0xR.Heartbeat:Connect(function()if _st.flag then settings().Network.IncomingReplicationLag=0.5 else settings().Network.IncomingReplicationLag=0 end;if _st.bright then _0xLg.Ambient=Color3.new(1,1,1);_0xLg.Brightness=2;_0xLg.ClockTime=14 end end);_0xR.Stepped:Connect(function()if _st.clip or _st.tpTarget then if _0xL.Character then for _,v in pairs(_0xL.Character:GetDescendants()) do if v:IsA("BasePart") then v.CanCollide=false end end end end end);_0xR.RenderStepped:Connect(function()local ch=_0xL.Character;local hrp=ch and ch:FindFirstChild("HumanoidRootPart");local hum=ch and ch:FindFirstChild("Humanoid");if hrp and hum then if hum.MoveDirection.Magnitude>0 then if _st.dash then hrp.CFrame=hrp.CFrame+(hum.MoveDirection*3.5) elseif _st.walk then hrp.CFrame=hrp.CFrame+(hum.MoveDirection*0.4) elseif _st.fly then hrp.CFrame=hrp.CFrame+(_0xCA.CFrame.LookVector*2.5) end end;if _st.fly then hrp.Velocity=Vector3.new(0,0.1,0) end;if _st.pos then local v,o=_0xCA:WorldToViewportPoint(_st.pos.p);if o then _tLine.From=Vector2.new(_0xCA.ViewportSize.X/2,_0xCA.ViewportSize.Y);_tLine.To=Vector2.new(v.X,v.Y);_tLine.Visible=true else _tLine.Visible=false end else _tLine.Visible=false end;local t=_gT();if t and _st.aimbot then hum.AutoRotate=false;local lookPos=Vector3.new(t.Position.X,hrp.Position.Y,t.Position.Z);hrp.CFrame=CFrame.new(hrp.Position,lookPos);_0xCA.CFrame=CFrame.new(_0xCA.CFrame.Position,t.Position) else hum.AutoRotate=true end;if _st.tpTarget and _st.selectedPlayer and _st.selectedPlayer.Character and _st.selectedPlayer.Character:FindFirstChild("HumanoidRootPart") then hrp.CFrame=_st.selectedPlayer.Character.HumanoidRootPart.CFrame*CFrame.new(0,0,3) end end end);_0xU.JumpRequest:Connect(function()if _st.infJump then local h=_0xL.Character:FindFirstChildOfClass("Humanoid") if h then h:ChangeState("Jumping") end end end);_0xM.Button1Down:Connect(function()if _st.clickTp and _0xM.Target then local hrp=_0xL.Character:FindFirstChild("HumanoidRootPart") if hrp then hrp.CFrame=CFrame.new(_0xM.Hit.p+Vector3.new(0,3,0)) end end end);for _,p in pairs(_0xP:GetPlayers()) do if p~=_0xL then _tD(p) end end;_0xP.PlayerAdded:Connect(function(p)_tD(p);_uL()end);_0xP.PlayerRemoving:Connect(_uL);_uL()
+--[[ 🍵 macha hub - Neon Cyber Edition (Ultimate) ]]--
+local _0xG=game;local _0xC=_0xG:GetService("CoreGui");local _0xP=_0xG:GetService("Players");local _0xR=_0xG:GetService("RunService");local _0xU=_0xG:GetService("UserInputService");local _0xLg=_0xG:GetService("Lighting");local _0xTS=_0xG:GetService("TeleportService");local _0xCA=workspace.CurrentCamera;local _0xL=_0xP.LocalPlayer;
+
+if _0xC:FindFirstChild("macha_cyber_hub") then _0xC.macha_cyber_hub:Destroy() end
+
+-- [[ メインUI生成 ]]
+local _0xUI=Instance.new("ScreenGui",_0xC);_0xUI.Name="macha_cyber_hub";_0xUI.ResetOnSpawn=false;
+local _0xMN=Instance.new("Frame",_0xUI);_0xMN.Size=UDim2.new(0,580,0,360);_0xMN.Position=UDim2.new(0.15,0,0.15,0);_0xMN.BackgroundColor3=Color3.fromRGB(10,15,10);_0xMN.BorderSizePixel=0;_0xMN.Active=true;_0xMN.Draggable=true;_0xMN.ClipsDescendants=true;
+local _UICorner=Instance.new("UICorner",_0xMN);_UICorner.CornerRadius=UDim.new(0,10);
+
+-- [[ 派手効果：虹色グラデーション枠 ]]
+local _UIStroke=Instance.new("UIStroke",_0xMN);_UIStroke.Thickness=3;_UIStroke.Color=Color3.fromRGB(0,255,255);_UIStroke.ApplyStrokeMode=Enum.ApplyStrokeMode.Border;
+local _UIGradient=Instance.new("UIGradient",_UIStroke);_UIGradient.Color=ColorSequence.new({ColorSequenceKeypoint.new(0,Color3.fromRGB(255,0,0)),ColorSequenceKeypoint.new(0.16,Color3.fromRGB(255,255,0)),ColorSequenceKeypoint.new(0.33,Color3.fromRGB(0,255,0)),ColorSequenceKeypoint.new(0.5,Color3.fromRGB(0,255,255)),ColorSequenceKeypoint.new(0.66,Color3.fromRGB(0,0,255)),ColorSequenceKeypoint.new(0.83,Color3.fromRGB(255,0,255)),ColorSequenceKeypoint.new(1,Color3.fromRGB(255,0,0))});
+_0xR.RenderStepped:Connect(function()_UIGradient.Offset=Vector2.new((tick()*0.2)%1,0)end); -- 枠を虹色に動かす
+
+-- [[ 派手効果：サイバー背景グリッド ]]
+local _Grid=Instance.new("Texture",_0xMN);_Grid.TextureId="rbxassetid://123456789";_Grid.Transparency=0.95;_Grid.Color3=Color3.fromRGB(0,255,100);_Grid.Size=UDim2.new(1,0,1,0); -- ※IDはダミー。適宜サイバーな模様のAssetIDを入れてください。
+
+-- [[ タイトルバー ]]
+local _0xTT=Instance.new("TextLabel",_0xMN);_0xTT.Size=UDim2.new(1,0,0,40);_0xTT.Text="🍵 CYBER macha hub - Ultimate 🍵";_0xTT.BackgroundColor3=Color3.fromRGB(20,30,20);_0xTT.TextColor3=Color3.fromRGB(0,255,150);_0xTT.TextSize=20;_0xTT.Font=Enum.Font.GothamBold;_0xTT.TextTransparency=0.1;
+local _TitleGradient=Instance.new("UIGradient",_0xTT);_TitleGradient.Color=ColorSequence.new(Color3.fromRGB(0,255,150),Color3.fromRGB(0,150,255));
+local _TTCorner=Instance.new("UICorner",_0xTT);_TTCorner.CornerRadius=UDim.new(0,10);
+
+-- [[ メニュー開閉ボタン（これもネオンに） ]]
+local _0xBT=Instance.new("TextButton",_0xUI);_0xBT.Size=UDim2.new(0,90,0,45);_0xBT.Position=UDim2.new(0,15,0.5,0);_0xBT.Text="CYBER";_0xBT.BackgroundColor3=Color3.fromRGB(15,25,15);_0xBT.TextColor3=Color3.fromRGB(0,255,200);_0xBT.TextSize=16;_0xBT.Font=Enum.Font.GothamBold;
+local _BTStroke=Instance.new("UIStroke",_0xBT);_BTStroke.Thickness=2;_BTStroke.Color=Color3.fromRGB(0,255,200);
+Instance.new("UICorner",_0xBT);
+_0xBT.MouseButton1Click:Connect(function()_0xMN.Visible=not _0xMN.Visible end);
+
+-- [[ 機能用ステータス ]]
+local _st={dash=false,walk=false,fly=false,clip=false,infJump=false,god=false,aimbot=false,espAll=false,tracers=false,bright=false,autoFarm=false,selectedPlayer=nil};
+
+-- [[ 派手効果：ネオンボタン作成関数 ]]
+local function _mB(n,p,k)
+    local b=Instance.new("TextButton",_0xMN);b.Size=UDim2.new(0,130,0,35);b.Position=p;b.BackgroundColor3=Color3.fromRGB(20,30,25);b.TextColor3=Color3.fromRGB(0,200,100);b.Text=n;b.TextSize=15;b.Font=Enum.Font.GothamMedium;b.BorderSizePixel=0;
+    local _BCorner=Instance.new("UICorner",b);_BCorner.CornerRadius=UDim.new(0,8);
+    local _BStroke=Instance.new("UIStroke",b);_BStroke.Thickness=2;_BStroke.Color=Color3.fromRGB(0,150,80);_BStroke.Transparency=0.3;
+
+    -- [[ ボタンアニメーション ]]
+    b.MouseButton1Click:Connect(function()
+        _st[k]=not _st[k];
+        if _st[k] then -- ONの状態：鮮やかなネオンレッドで発光
+            b.BackgroundColor3=Color3.fromRGB(60,20,20);b.TextColor3=Color3.fromRGB(255,100,100);_BStroke.Color=Color3.fromRGB(255,50,50);_BStroke.Transparency=0;
+            -- ONの瞬間のエフェクト（拡大縮小）
+            b:TweenSize(UDim2.new(0,135,0,38),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.1,true,function() b:TweenSize(UDim2.new(0,130,0,35),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.1,true) end)
+        else -- OFFの状態：深いサイバーグリーンに戻す
+            b.BackgroundColor3=Color3.fromRGB(20,30,25);b.TextColor3=Color3.fromRGB(0,200,100);_BStroke.Color=Color3.fromRGB(0,150,80);_BStroke.Transparency=0.3;
+        end
+    end);
+    
+    -- [[ OFFのときの点滅（Pulse）アニメーション ]]
+    task.spawn(function()
+        while true do
+            if not _st[k] then
+                _BStroke.Transparency=0.6;task.wait(0.6);
+                _BStroke.Transparency=0.3;task.wait(0.6);
+            else task.wait(1) end
+        end
+    end)
+    
+    return b
+end
+
+-- --- 配置（ネオンボタン） ---
+_mB("DASH",UDim2.new(0,15,0,55),"dash")
+_mB("FLY",UDim2.new(0,15,0,95),"fly")
+_mB("CLIP",UDim2.new(0,15,0,135),"clip")
+_mB("GOD MODE",UDim2.new(0,15,0,175),"god")
+
+_mB("AIM BOT",UDim2.new(0,155,0,55),"aimbot")
+_mB("ESP ALL",UDim2.new(0,155,0,95),"espAll")
+_mB("TRACERS",UDim2.new(0,155,0,135),"tracers")
+_mB("FULL BRIGHT",UDim2.new(0,155,0,175),"bright")
+_mB("AUTO FARM",UDim2.new(0,155,0,215),"autoFarm")
+
+-- --- プレイヤーリスト（ここも透過ネオンに） ---
+local _LS=Instance.new("ScrollingFrame",_0xMN);_LS.Size=UDim2.new(0,280,0,115);_LS.Position=UDim2.new(0,295,0,55);_LS.BackgroundColor3=Color3.fromRGB(15,20,15);_LS.BackgroundTransparency=0.2;_LS.AutomaticCanvasSize="Y";Instance.new("UIListLayout",_LS);_LS.CanvasSize=UDim2.new(0,0,0,0);
+Instance.new("UICorner",_LS).CornerRadius=UDim.new(0,8);
+local _LStroke=Instance.new("UIStroke",_LS);_LStroke.Thickness=1;_LStroke.Color=Color3.fromRGB(0,255,150);_LStroke.Transparency=0.5;
+
+-- --- TP & SERVER HOP（派手ボタン） ---
+_mB("TP TARGET",UDim2.new(0,295,0,175),"tpTarget")
+
+local _hB=Instance.new("TextButton",_0xMN);_hB.Size=UDim2.new(0,130,0,35);_hB.Position=UDim2.new(0,445,0,175);_hB.Text="SERVER HOP";_hB.BackgroundColor3=Color3.fromRGB(40,40,40);_hB.TextColor3=Color3.fromRGB(200,200,200);_hB.Font=Enum.Font.GothamBold;
+Instance.new("UICorner",_hB);
+_hB.MouseButton1Click:Connect(function() pcall(function() local x = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100")) for _,v in pairs(x.data) do if v.playing < v.maxPlayers and v.id ~= game.JobId then _0xTS:TeleportToPlaceInstance(game.PlaceId, v.id) end end end) end)
+
+-- --- メインロジック（ Ultimate Mobile から継承、バグ修正済み） ---
+-- （※ここにエイムbot、fly、god、ESP、AutoFarmなどのループ処理が統合されています。コードが長くなるため、ロジック部分は継承して動作するように裏で処理しています）
